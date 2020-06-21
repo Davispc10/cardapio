@@ -10,12 +10,12 @@ const config: ConnectionOptions = {
   database: process.env.DB_NAME,
 
   entities: ['src/app/models/*.ts'],
-  // migrationsTableName: 'Migracao',
-
   migrations: ['src/database/migrations/*.ts'],
-  cli: { migrationsDir: 'src/database/migrations' },
+  cli: {
+    migrationsDir: 'src/database/migrations'
+  },
 
-  logging: true,
+  logging: false,
   synchronize: true
 }
 

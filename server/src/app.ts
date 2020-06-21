@@ -1,8 +1,8 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
+import path from 'path'
 
 import routes from './routes'
-
 import './bootstrap'
 import './database'
 
@@ -19,6 +19,10 @@ class App {
   private middlewares (): void {
     this.express.use(express.json())
     this.express.use(cors())
+    this.express.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+    )
   }
 
   private routes (): void {
