@@ -18,7 +18,7 @@ class UserController {
 
   public async show (req: Request, res: Response) {
     const user = await getRepository(User).findOne(req.params.id, {
-      // select: ['id', 'avatar', 'firstName', 'lastName', 'username', 'email', 'phone', 'dateBorn', 'gender', 'admissionDate', 'position', 'role', 'active'],
+      select: ['id', 'avatar', 'firstName', 'lastName', 'username', 'email', 'phone', 'role', 'valid'],
       relations: ['avatar']
     })
 
@@ -48,7 +48,18 @@ class UserController {
 
     await getRepository(User).save(user)
 
-    return res.json(user)
+    const { firstName, email, username, lastName, phone, role, valid, id } = user
+
+    return res.json({
+      firstName,
+      email,
+      username,
+      lastName,
+      phone,
+      role,
+      valid,
+      id
+    })
   }
 
   public update = async (req: Request, res: Response) => {
@@ -84,13 +95,25 @@ class UserController {
 
     if (reset) {
       newUser.password = '123456'
+      newUser.hashPassword()
     } else if (password) {
       newUser.hashPassword()
     }
 
     await getRepository(User).save(newUser)
 
-    return res.json(newUser)
+    const { firstName, lastName, phone, role, valid, id } = newUser
+
+    return res.json({
+      firstName,
+      email,
+      username,
+      lastName,
+      phone,
+      role,
+      valid,
+      id
+    })
   }
 }
 

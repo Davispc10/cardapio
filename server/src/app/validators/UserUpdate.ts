@@ -8,7 +8,7 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
       lastName: Yup.string().optional(),
       username: Yup.string().required(),
       email: Yup.string().required().email(),
-      phone: Yup.number().optional(),
+      phone: Yup.string().optional(),
       valid: Yup.bool().required(),
       role: Yup.string().default('O'),
       oldPassword: Yup.string().min(8),

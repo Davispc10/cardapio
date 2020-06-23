@@ -1,14 +1,12 @@
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 
-import File from '../models/File'
-import User from '../models/User'
+import File from '@models/File'
+import User from '@models/User'
 
 class FileController {
   public async store (req: Request, res: Response) {
     const { originalname: name, filename: path } = req.file
-
-    console.log(res.locals.userId)
 
     const file = await getRepository(File).save({ name, path })
 

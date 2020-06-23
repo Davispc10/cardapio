@@ -6,7 +6,7 @@ module.exports = {
   // automock: false,
 
   // Stop running tests after `n` failures
-  // bail: 0,
+  bail: 1,
 
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/tmp/jest_rs",
@@ -18,7 +18,7 @@ module.exports = {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["src/app/**/*.js"],
+  collectCoverageFrom: ["src/app/**/*.ts"],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "src/tests/coverage",
@@ -29,7 +29,7 @@ module.exports = {
   // ],
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: ["json", "lcov", "text"],
+  coverageReporters: ["lcov", "text", "json"],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
