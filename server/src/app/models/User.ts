@@ -9,7 +9,7 @@ export enum UserRole {
 }
 
 @Entity()
-class User {
+export default class User {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -69,4 +69,4 @@ class User {
   confirmPassword: string
 }
 
-export default User
+// export default User

@@ -1,7 +1,7 @@
 import { CreateDateColumn, UpdateDateColumn, Column, Entity, AfterLoad, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-class File {
+export default class File {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -28,5 +28,3 @@ class File {
     Object.assign(this, file)
   }
 }
-
-export default File
