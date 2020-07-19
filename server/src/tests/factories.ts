@@ -1,6 +1,7 @@
 import factory from 'factory-girl'
 import faker from 'faker/locale/pt_BR'
 
+import Segment from '@models/Segment'
 import User, { UserRole } from '@models/User'
 
 factory.define('User', User, {
@@ -33,6 +34,10 @@ factory.define('UserUpdate', User, {
   role: UserRole.ADMIN,
   username: faker.internet.userName(),
   valid: true
+})
+
+factory.define('Segment', Segment, {
+  description: faker.name.title()
 })
 
 export default factory

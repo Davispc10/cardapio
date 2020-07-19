@@ -1,14 +1,17 @@
 import { Router } from 'express'
 import multer from 'multer'
 
-import FileController from './app/controllers/FileController'
-import SessionController from './app/controllers/SessionControler'
-import UserController from './app/controllers/UserController'
+import multerConfig from '@config/multer'
+import FileController from '@controllers/FileController'
+import SegmentController from '@controllers/SegmentController'
+import SessionController from '@controllers/SessionControler'
+import UserController from '@controllers/UserController'
+import validateSegmentStore from '@validators/SegmentStore'
+import validateSessionStore from '@validators/SessionStore'
+import validateUserStore from '@validators/UserStore'
+import validateUserUpdate from '@validators/UserUpdate'
+
 import authMiddleware from './app/middlewares/auth'
-import validateSessionStore from './app/validators/SessionStore'
-import validateUserStore from './app/validators/UserStore'
-import validateUserUpdate from './app/validators/UserUpdate'
-import multerConfig from './config/multer'
 
 const routes = Router()
 const upload = multer(multerConfig)
@@ -23,5 +26,8 @@ routes.get('/users', UserController.index)
 routes.get('/users/:id', UserController.show)
 
 routes.post('/files', upload.single('file'), FileController.store)
+
+routes.get('/segments', SegmentController.index)
+routes.post('/segments', validateSegmentStore, SegmentController.store)
 
 export default routes

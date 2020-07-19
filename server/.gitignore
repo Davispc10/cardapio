@@ -4,4 +4,4 @@ node_modules
 tmp/uploads/*
 dist
 
-src/tests/coverage
+src/tests/coverage/*
