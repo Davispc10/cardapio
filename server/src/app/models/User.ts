@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
-import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert } from 'typeorm'
+import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert, ManyToMany, JoinTable } from 'typeorm'
 
+import Business from './Business'
 import File from './File'
 
 export enum UserRole {
@@ -45,6 +46,10 @@ export default class User {
   @JoinColumn()
   avatar: File
 
+  @ManyToMany(type => Business)
+  @JoinTable()
+  business: Business[]
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -68,5 +73,3 @@ export default class User {
 
   confirmPassword: string
 }
-
-// export default User
