@@ -25,7 +25,7 @@ export default class Address {
   @Column({ nullable: true })
   number: string
 
-  @ManyToOne(type => Business, business => business.adresses)
+  @ManyToOne(type => Business, business => business.addresses)
   business: Business
 
   @CreateDateColumn()
@@ -34,7 +34,12 @@ export default class Address {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (address: Address) {
-    Object.assign(this, address)
+  constructor (street: string, city: string, state: string, postalCode: string, locality: string, number: string) {
+    this.street = street
+    this.city = city
+    this.state = state
+    this.postalCode = postalCode
+    this.locality = locality
+    this.number = number
   }
 }

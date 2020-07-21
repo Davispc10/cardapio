@@ -6,7 +6,7 @@ import User from '@models/User'
 class UserController {
   public async index (req: Request, res: Response) {
     const users = await getRepository(User).find({
-      relations: ['avatar'],
+      relations: ['avatar', 'businesses', 'businesses.addresses'],
       select: ['id', 'username', 'email', 'firstName', 'valid', 'avatar'],
       order: {
         firstName: 'ASC'

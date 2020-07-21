@@ -24,7 +24,8 @@ export default class File {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (file: File) {
-    Object.assign(this, file)
+  constructor (name: string, path: string) {
+    this.name = name
+    this.path = path
   }
 }

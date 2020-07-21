@@ -2,6 +2,7 @@ import { Router } from 'express'
 import multer from 'multer'
 
 import multerConfig from '@config/multer'
+import BusinessController from '@controllers/BusinessController'
 import FileController from '@controllers/FileController'
 import SegmentController from '@controllers/SegmentController'
 import SessionController from '@controllers/SessionControler'
@@ -29,5 +30,9 @@ routes.post('/files', upload.single('file'), FileController.store)
 
 routes.get('/segments', SegmentController.index)
 routes.post('/segments', validateSegmentStore, SegmentController.store)
+
+routes.get('/business', BusinessController.index)
+routes.get('/business/:id', BusinessController.show)
+routes.post('/business', upload.single('file'), BusinessController.store)
 
 export default routes

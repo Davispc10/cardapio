@@ -38,7 +38,7 @@ export default class Business {
   segment: Segment
 
   @OneToMany(type => Address, address => address.business)
-  adresses: Address[]
+  addresses: Address[]
 
   @OneToMany(type => Category, category => category.business)
   categories: Category[]
@@ -55,7 +55,14 @@ export default class Business {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (business: Business) {
-    Object.assign(this, business)
+  constructor (name: string, description: string, logo: File, payment: string, phone: string, whatsapp: string, segment: Segment, valid = true) {
+    this.name = name
+    this.description = description
+    this.logo = logo
+    this.payment = payment
+    this.phone = phone
+    this.whatsapp = whatsapp
+    this.segment = segment
+    this.valid = valid
   }
 }

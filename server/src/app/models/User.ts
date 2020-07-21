@@ -48,7 +48,7 @@ export default class User {
 
   @ManyToMany(type => Business)
   @JoinTable()
-  business: Business[]
+  businesses: Business[]
 
   @CreateDateColumn()
   createdAt: Date;
