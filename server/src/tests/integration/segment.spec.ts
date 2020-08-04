@@ -1,5 +1,4 @@
 import request from 'supertest'
-import { getRepository } from 'typeorm'
 
 import Segment from '@models/Segment'
 import User from '@models/User'
@@ -23,7 +22,7 @@ describe('Segment', () => {
   })
 
   beforeEach(async () => {
-    await getRepository(Segment).clear()
+    await PostgresMock.clearDatabase()
   })
 
   it('should be able to register', async () => {

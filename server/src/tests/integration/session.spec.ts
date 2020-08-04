@@ -1,11 +1,10 @@
 import request from 'supertest'
-import { getRepository } from 'typeorm'
 
 import User from '@models/User'
 
 import app from '../../app'
 import factory from '../factories'
-import Postgresmock from '../util/PostgresMock'
+import PostgresMock from '../util/PostgresMock'
 
 interface ISession {
   username: string
@@ -14,15 +13,15 @@ interface ISession {
 
 describe('Session', () => {
   beforeAll(async () => {
-    await Postgresmock.connect()
+    await PostgresMock.connect()
   })
 
   afterAll(async () => {
-    await Postgresmock.disconect()
+    await PostgresMock.disconect()
   })
 
   beforeEach(async () => {
-    await getRepository(User).clear()
+    await PostgresMock.clearDatabase()
   })
 
   it('should be able to register a session user', async () => {

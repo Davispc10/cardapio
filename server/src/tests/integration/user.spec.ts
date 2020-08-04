@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import request from 'supertest'
-import { getRepository } from 'typeorm'
+import { getRepository, getConnection } from 'typeorm'
 
 import User from '@models/User'
 
@@ -23,7 +23,11 @@ describe('User', () => {
   })
 
   beforeEach(async () => {
-    await getRepository(User).clear()
+    await getConnection()
+      .createQueryBuilder()
+      .delete()
+      .from(User)
+      .execute()
   })
 
   it('should be able to register', async () => {
