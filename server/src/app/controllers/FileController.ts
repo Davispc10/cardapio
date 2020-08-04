@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
 
 import File from '@models/File'
 import User from '@models/User'
@@ -8,16 +7,18 @@ class FileController {
   public async store (req: Request, res: Response) {
     const { originalname: name, filename: path } = req.file
 
-    const file = await getRepository(File).save({ name, path })
+    const file = File.create({ name, path })
 
-    const user = await getRepository(User).findOne(res.locals.userId)
+    const user = await User.findOne(req.userId)
 
     if (!user) {
       return res.status(400).json({ error: 'User not found!' })
     }
 
     user.avatar = file
-    await getRepository(User).save(user)
+
+    await file.save()
+    await user.save()
 
     return res.json(file)
   }

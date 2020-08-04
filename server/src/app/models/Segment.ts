@@ -1,9 +1,9 @@
-import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToMany, BaseEntity } from 'typeorm'
 
 import Business from './Business'
 
 @Entity()
-export default class Segment {
+export default class Segment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -20,6 +20,7 @@ export default class Segment {
   updatedAt: Date;
 
   constructor (segment: Segment) {
+    super()
     Object.assign(this, segment)
   }
 }

@@ -1,10 +1,10 @@
-import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
+import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, BaseEntity } from 'typeorm'
 
 import Business from './Business'
 import Product from './Product'
 
 @Entity()
-export default class Category {
+export default class Category extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -26,7 +26,8 @@ export default class Category {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (category: Category) {
-    Object.assign(this, category)
+  constructor (props: Omit<Category, 'id' | 'products' | 'createdAt' | 'updatedAt'>) {
+    super()
+    Object.assign(this, props)
   }
 }

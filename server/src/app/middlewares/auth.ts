@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 import authConfig from '@config/auth'
 
-interface ITokenDto {
+interface ITokenPayload {
   id: number
   iat: number
   exp: number
@@ -19,10 +19,10 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
   const [, token] = authHeader.split(' ')
 
   try {
-    const decoded = jwt.verify(token, String(authConfig.secret)) as ITokenDto
+    const decoded = jwt.verify(token, String(authConfig.secret)) as ITokenPayload
     // const decoded: any = await promisify(jwt.verify)(token, String(authConfig.secret)) as ITokenDto
 
-    res.locals.userId = decoded.id
+    req.userId = decoded.id
 
     return next()
   } catch (err) {

@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
 
 import Segment from '@models/Segment'
 
 class SegmentController {
   public async index (req: Request, res: Response) {
-    const segments = await getRepository(Segment).find({
+    const segments = await Segment.find({
       select: ['id', 'description'],
       order: {
         description: 'ASC'
@@ -18,9 +17,9 @@ class SegmentController {
   public async store (req: Request, res: Response) {
     const { description } = req.body
 
-    const segment = new Segment(description)
+    const segment = Segment.create({ description })
 
-    await getRepository(Segment).save(segment)
+    await segment.save()
 
     return res.json(segment)
   }

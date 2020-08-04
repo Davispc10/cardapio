@@ -1,7 +1,7 @@
-import { CreateDateColumn, UpdateDateColumn, Column, Entity, AfterLoad, PrimaryGeneratedColumn } from 'typeorm'
+import { CreateDateColumn, UpdateDateColumn, Column, Entity, AfterLoad, PrimaryGeneratedColumn, BaseEntity } from 'typeorm'
 
 @Entity()
-export default class File {
+export default class File extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -24,8 +24,8 @@ export default class File {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (name: string, path: string) {
-    this.name = name
-    this.path = path
+  constructor (file: File) {
+    super()
+    Object.assign(this, file)
   }
 }

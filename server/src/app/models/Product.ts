@@ -1,11 +1,11 @@
-import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm'
+import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, BaseEntity } from 'typeorm'
 
 import Business from './Business'
 import Category from './Category'
 import File from './File'
 
 @Entity()
-export default class Product {
+export default class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -41,6 +41,7 @@ export default class Product {
   updatedAt: Date;
 
   constructor (product: Product) {
+    super()
     Object.assign(this, product)
   }
 }

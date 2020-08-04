@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { getRepository, getConnection } from 'typeorm'
+import { getConnection } from 'typeorm'
 
 import Address from '@models/Address'
 import Business from '@models/Business'
@@ -9,7 +9,7 @@ import User from '@models/User'
 
 class BusinessController {
   public async index (req: Request, res: Response) {
-    const user = await getRepository(User).findOne(res.locals.userId, {
+    const user = await User.findOne(req.userId, {
       relations: ['businesses', 'businesses.addresses', 'businesses.segment']
     })
 
@@ -19,7 +19,7 @@ class BusinessController {
   public async show (req: Request, res: Response) {
     const { id } = req.params
 
-    const business = await getRepository(Business).findOne(id, {
+    const business = await Business.findOne(id, {
       relations: ['addresses', 'segment']
     })
 
@@ -27,9 +27,9 @@ class BusinessController {
   }
 
   public async store (req: Request, res: Response) {
-    const { name, description, payment, phone, whatsapp, segmentId, valid } = req.body
+    const { name, description, payment, phone, whatsapp, segmentId } = req.body
 
-    const user = await getRepository(User).findOne(res.locals.userId, {
+    const user = await User.findOne(req.userId, {
       relations: ['businesses']
     })
 
@@ -37,7 +37,7 @@ class BusinessController {
       return res.status(400).json({ error: 'User not found!' })
     }
 
-    const segment = await getRepository(Segment).findOne(segmentId)
+    const segment = await Segment.findOne(segmentId)
 
     if (!segment) {
       return res.status(400).json({ error: 'Segment not found!' })
@@ -46,24 +46,24 @@ class BusinessController {
     const { originalname: logoName, filename: path } = req.file
 
     await getConnection().transaction(async transaction => {
-      const logo = new File(logoName, path)
+      const logo = File.create({ name: logoName, path })
 
       await transaction.save(logo)
 
       const { street, city, state, postalCode, locality, number } = req.body
 
-      const address = new Address(
+      const address = Address.create({
         street,
         city,
         state,
         postalCode,
         locality,
         number
-      )
+      })
 
       await transaction.save(address)
 
-      const business = new Business(
+      const business = Business.create({
         name,
         description,
         logo,
@@ -71,8 +71,8 @@ class BusinessController {
         phone,
         whatsapp,
         segment,
-        valid
-      )
+        valid: true
+      })
 
       business.addresses = [address]
 
@@ -81,7 +81,7 @@ class BusinessController {
       await transaction.save(business)
       await transaction.save(user)
 
-      return res.json({ business, user })
+      return res.json(business)
     })
   }
 }

@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert, ManyToMany, JoinTable } from 'typeorm'
+import { Column, Entity, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToOne, JoinColumn, BeforeInsert, ManyToMany, JoinTable, BaseEntity } from 'typeorm'
 
 import Business from './Business'
 import File from './File'
@@ -10,7 +10,7 @@ export enum UserRole {
 }
 
 @Entity()
-export default class User {
+export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -66,6 +66,7 @@ export default class User {
   }
 
   constructor (user: User) {
+    super()
     Object.assign(this, user)
   }
 

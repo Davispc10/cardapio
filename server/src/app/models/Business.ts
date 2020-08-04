@@ -1,4 +1,4 @@
-import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
+import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne, OneToMany, BaseEntity } from 'typeorm'
 
 import Address from './Address'
 import Category from './Category'
@@ -7,7 +7,7 @@ import Product from './Product'
 import Segment from './Segment'
 
 @Entity()
-export default class Business {
+export default class Business extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -55,14 +55,8 @@ export default class Business {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (name: string, description: string, logo: File, payment: string, phone: string, whatsapp: string, segment: Segment, valid = true) {
-    this.name = name
-    this.description = description
-    this.logo = logo
-    this.payment = payment
-    this.phone = phone
-    this.whatsapp = whatsapp
-    this.segment = segment
-    this.valid = valid
+  constructor (props: Omit<Business, 'id' | 'products' | 'categories' | 'addresses' | 'image' |'createdAt' | 'updatedAt'>) {
+    super()
+    Object.assign(this, props)
   }
 }

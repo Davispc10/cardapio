@@ -1,9 +1,9 @@
-import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
+import { CreateDateColumn, UpdateDateColumn, Column, Entity, PrimaryGeneratedColumn, ManyToOne, BaseEntity } from 'typeorm'
 
 import Business from './Business'
 
 @Entity()
-export default class Address {
+export default class Address extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
@@ -34,12 +34,8 @@ export default class Address {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (street: string, city: string, state: string, postalCode: string, locality: string, number: string) {
-    this.street = street
-    this.city = city
-    this.state = state
-    this.postalCode = postalCode
-    this.locality = locality
-    this.number = number
+  constructor (address: Address) {
+    super()
+    Object.assign(this, address)
   }
 }

@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
 
 import User from '@models/User'
 
 class UserController {
   public async index (req: Request, res: Response) {
-    const users = await getRepository(User).find({
+    const users = await User.find({
       relations: ['avatar', 'businesses', 'businesses.addresses'],
       select: ['id', 'username', 'email', 'firstName', 'valid', 'avatar'],
       order: {
@@ -17,7 +16,7 @@ class UserController {
   }
 
   public async show (req: Request, res: Response) {
-    const user = await getRepository(User).findOne(req.params.id, {
+    const user = await User.findOne(req.params.id, {
       select: ['id', 'avatar', 'firstName', 'lastName', 'username', 'email', 'phone', 'role', 'valid'],
       relations: ['avatar']
     })
@@ -32,21 +31,21 @@ class UserController {
   public async store (req: Request, res: Response) {
     const userData: User = req.body
 
-    let userExist = await getRepository(User).findOne({ email: userData.email })
+    let userExist = await User.findOne({ email: userData.email })
 
     if (userExist) {
       return res.status(400).json({ error: 'User email already exist' })
     }
 
-    userExist = await getRepository(User).findOne({ username: userData.username })
+    userExist = await User.findOne({ username: userData.username })
 
     if (userExist) {
       return res.status(400).json({ error: 'Username already exist' })
     }
 
-    const user = new User(userData)
+    const user = User.create({ ...userData })
 
-    await getRepository(User).save(user)
+    await user.save()
 
     const { firstName, email, username, lastName, phone, role, valid, id } = user
 
@@ -65,14 +64,14 @@ class UserController {
   public update = async (req: Request, res: Response) => {
     const { email, username, reset, password, oldPassword } = req.body
 
-    const user = await getRepository(User).findOne(res.locals.userId)
+    const user = await User.findOne(req.userId)
 
     if (!user) {
       return res.status(400).json({ error: 'User not found!' })
     }
 
     if (email !== user.email) {
-      const userExits = await getRepository(User).findOne({ email })
+      const userExits = await User.findOne({ email })
 
       if (userExits) {
         return res.status(400).json({ error: 'User email already exists' })
@@ -80,7 +79,7 @@ class UserController {
     }
 
     if (username !== user.username) {
-      const userExits = await getRepository(User).findOne({ username })
+      const userExits = await User.findOne({ username })
 
       if (userExits) {
         return res.status(400).json({ error: 'Username already exists' })
@@ -91,7 +90,7 @@ class UserController {
       return res.status(401).json({ error: 'Password does not match' })
     }
 
-    const newUser = await getRepository(User).merge(user, req.body)
+    const newUser = User.merge(user, req.body)
 
     if (reset) {
       newUser.password = '123456'
@@ -100,7 +99,7 @@ class UserController {
       newUser.hashPassword()
     }
 
-    await getRepository(User).save(newUser)
+    await newUser.save()
 
     const { firstName, lastName, phone, role, valid, id } = newUser
 
