@@ -1,6 +1,9 @@
 import factory from 'factory-girl'
 import faker from 'faker/locale/pt_BR'
 
+import Address from '@models/Address'
+import Business from '@models/Business'
+import Category from '@models/Category'
 import Segment from '@models/Segment'
 import User, { UserRole } from '@models/User'
 
@@ -38,6 +41,33 @@ factory.define('UserUpdate', User, {
 
 factory.define('Segment', Segment, {
   description: faker.name.title()
+})
+
+factory.define('Address', Address, {
+  street: faker.address.streetAddress(),
+  city: faker.address.city(),
+  state: faker.address.state(),
+  postalCode: faker.address.zipCode(),
+  locality: faker.address.streetName(),
+  number: faker.address.countryCode()
+})
+
+factory.define('Business', Business, {
+  name: faker.company.companyName(),
+  description: faker.company.companySuffix(),
+  payment: faker.commerce.department(),
+  phone: faker.phone.phoneNumber(),
+  whatsapp: faker.phone.phoneNumber(),
+  street: faker.address.streetAddress(),
+  city: faker.address.city(),
+  state: faker.address.state(),
+  postalCode: faker.address.zipCode(),
+  locality: faker.address.streetName(),
+  number: faker.address.countryCode()
+})
+
+factory.define('Category', Category, {
+  description: faker.commerce.department()
 })
 
 export default factory
