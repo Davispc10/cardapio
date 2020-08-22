@@ -34,16 +34,22 @@ export default class Business extends BaseEntity {
   @Column({ nullable: true })
   whatsapp: string
 
-  @ManyToOne(type => Segment, segment => segment.businesses)
+  @ManyToOne(() => Segment, segment => segment.businesses)
   segment: Segment
 
-  @OneToMany(type => Address, address => address.business)
+  @OneToMany(() => Address, address => address.business, {
+    cascade: true
+  })
   addresses: Address[]
 
-  @OneToMany(type => Category, category => category.business)
+  @OneToMany(() => Category, category => category.business, {
+    cascade: true
+  })
   categories: Category[]
 
-  @OneToMany(type => Product, product => product.business)
+  @OneToMany(() => Product, product => product.business, {
+    cascade: true
+  })
   products: Product[]
 
   @Column()

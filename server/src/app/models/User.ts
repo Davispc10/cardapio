@@ -46,7 +46,7 @@ export default class User extends BaseEntity {
   @JoinColumn()
   avatar: File
 
-  @ManyToMany(type => Business)
+  @ManyToMany(() => Business)
   @JoinTable()
   businesses: Business[]
 

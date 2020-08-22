@@ -25,10 +25,10 @@ export default class Product extends BaseEntity {
   @Column({ nullable: true })
   obs: string
 
-  @ManyToOne(type => Business, business => business.products)
+  @ManyToOne(() => Business, business => business.products)
   business: Business
 
-  @ManyToOne(type => Category, category => category.products)
+  @ManyToOne(() => Category, category => category.products)
   category: Category
 
   @Column({ nullable: false })
@@ -40,8 +40,8 @@ export default class Product extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  constructor (product: Product) {
+  constructor (props: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) {
     super()
-    Object.assign(this, product)
+    Object.assign(this, props)
   }
 }
